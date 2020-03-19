@@ -1,0 +1,85 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * ARM emulator device tree source
+ *
+ * Copyright (c) 2019 hxdyxd
+ */
+/dts-v1/;
+#include <dt-bindings/input/input.h>
+
+/ {
+	model = "ARM Emulator";
+	/*compatible = "hxdyxd,armemulator";*/
+	interrupt-parent = <&intc>;
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	clocks {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		osc24M: clk-24M {
+			#clock-cells = <0>;
+			#reset-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <24000000>;
+			clock-output-names = "osc24M";
+		};
+	};
+
+	chosen {
+		bootargs = "console=ttyS0 rootwait phram.phram=rootfs,0x10000000,32Mi root=/dev/mtdblock0 rw rootfstype=ext2 init=/linuxrc earlyprintk";
+		//bootargs = "console=ttyS0 rootwait rdinit=/linuxrc earlyprintk";
+		stdout-path = "serial0:115200n8";
+	};
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	memory@00000000 {
+		device_type = "memory";
+		reg =  <0x00000000 0x2000000>; //32M
+	};
+
+	//memory@10000000 {
+	//	device_type = "memory";
+	//	reg =  <0x10000000 0x2000000>; //32M
+	//};
+
+	intc: interrupt-controller@4001f040 {
+		compatible = "hxdyxd,armemulator-ic";
+		reg = <0x4001f040 0x10>;
+		interrupt-controller;
+		#interrupt-cells = <1>;
+	};
+
+	timer@4001f020 {
+		compatible = "hxdyxd,armemulator-timer";
+		reg = <0x4001f020 0x10>;
+		interrupts = <0>;
+		clocks = <&osc24M>;
+	};
+
+	uart0: serial@40020000 {
+		compatible = "snps,dw-apb-uart";
+		reg = <0x40020000 0x100>;
+		interrupts = <1>;
+		reg-shift = <2>;
+		reg-io-width = <4>;
+		clock-frequency = <115200>;
+		status = "okay";
+	};
+	
+	uart1: serial@40020100 {
+          compatible = "snps,dw-apb-uart";
+          reg = <0x40020100 0x100>;
+          interrupts = <2>;
+          reg-shift = <2>;
+          reg-io-width = <4>;
+          clock-frequency = <115200>;
+          status = "okay";
+     };
+};
+
