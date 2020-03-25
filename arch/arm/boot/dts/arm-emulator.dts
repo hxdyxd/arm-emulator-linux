@@ -29,7 +29,7 @@
 	};
 
 	chosen {
-		bootargs = "console=ttyS0 rootwait phram.phram=rootfs,0x10000000,32Mi root=/dev/mtdblock0 rw rootfstype=ext2 init=/linuxrc earlyprintk";
+		bootargs = "console=ttyS0 rootwait phram.phram=rootfs,0x10000000,32Mi root=/dev/mtdblock0 rw rootfstype=ext2 init=/linuxrc earlyprintk video=vfb:640x480-24@24 user_debug=0xff";
 		//bootargs = "console=ttyS0 rootwait rdinit=/linuxrc earlyprintk";
 		stdout-path = "serial0:115200n8";
 	};
