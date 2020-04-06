@@ -9,7 +9,6 @@
 
 / {
 	model = "ARM Emulator";
-	/*compatible = "hxdyxd,armemulator";*/
 	interrupt-parent = <&intc>;
 	#address-cells = <1>;
 	#size-cells = <1>;
@@ -29,8 +28,7 @@
 	};
 
 	chosen {
-		bootargs = "console=ttyS0 rootwait phram.phram=rootfs,0x10000000,32Mi root=/dev/mtdblock0 rw rootfstype=ext2 init=/linuxrc earlyprintk video=vfb:640x480-24@24 user_debug=0xff";
-		//bootargs = "console=ttyS0 rootwait rdinit=/linuxrc earlyprintk";
+		bootargs = "console=ttyS0 rootwait phram.phram=rootfs,0x80000000,512Mi root=/dev/mtdblock0 rw rootfstype=ext2 init=/linuxrc earlyprintk video=vfb:640x480-24@24 user_debug=0xff";
 		stdout-path = "serial0:115200n8";
 	};
 
@@ -42,11 +40,6 @@
 		device_type = "memory";
 		reg =  <0x00000000 0x2000000>; //32M
 	};
-
-	//memory@10000000 {
-	//	device_type = "memory";
-	//	reg =  <0x10000000 0x2000000>; //32M
-	//};
 
 	intc: interrupt-controller@4001f040 {
 		compatible = "hxdyxd,armemulator-ic";
@@ -73,13 +66,12 @@
 	};
 	
 	uart1: serial@40020100 {
-          compatible = "snps,dw-apb-uart";
-          reg = <0x40020100 0x100>;
-          interrupts = <2>;
-          reg-shift = <2>;
-          reg-io-width = <4>;
-          clock-frequency = <115200>;
-          status = "okay";
-     };
+		compatible = "snps,dw-apb-uart";
+		reg = <0x40020100 0x100>;
+		interrupts = <2>;
+		reg-shift = <2>;
+		reg-io-width = <4>;
+		clock-frequency = <115200>;
+		status = "okay";
+	 };
 };
-
