@@ -69,7 +69,7 @@ static int armemulator_clkevt_set_periodic(struct clock_event_device *evt)
 static int armemulator_clkevt_next_event(unsigned long evt,
 				   struct clock_event_device *clkevt)
 {
-	printk("next event %d\n", evt);
+	printk("next event %lu\n", evt);
 	return 0;
 }
 
@@ -78,7 +78,6 @@ static int armemulator_clkevt_next_event(unsigned long evt,
 static irqreturn_t armemulator_timer_interrupt(int irq, void *dev_id)
 {
 	struct clock_event_device *evt = (struct clock_event_device *)dev_id;
-	struct timer_of *to = to_timer_of(evt);
 
 	//printk("timer irq %d happen\n", irq);
 	evt->event_handler(evt);
@@ -115,7 +114,6 @@ static u64 notrace armemulator_timer_sched_read(void)
 static int __init armemulator_timer_init(struct device_node *node)
 {
 	int ret;
-	u32 val;
 
 	ret = timer_of_init(node, &to);
 	if (ret) {
